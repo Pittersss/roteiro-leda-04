@@ -4,11 +4,13 @@ public class FloorBinarySearchImpl implements Floor {
 
 	@Override
 	public Integer floor(Integer[] array, Integer x) {
-		return 0;
+		mergeSort(array, 0, array.length - 1);
+
+        return binarySearchFloor(array, 0, array.length - 1, x);
 		
 	}
 
-	public Integer binarySearch(Integer[] array, int leftIndex, int rightIndex, int element)
+	public Integer binarySearchFloor(Integer[] array, int leftIndex, int rightIndex, int element)
 	{
 		int middle = (leftIndex + rightIndex)/2;
         Integer elementIndex = null;
@@ -27,11 +29,11 @@ public class FloorBinarySearchImpl implements Floor {
             }
             if (array[middle] > element)
             {
-                futureElementIndex = binarySearch(array, leftIndex, middle - 1, element);
+                futureElementIndex = binarySearchFloor(array, leftIndex, middle - 1, element);
             }
             else
             {
-               futureElementIndex = binarySearch(array, middle + 1, rightIndex, element);
+               futureElementIndex = binarySearchFloor(array, middle + 1, rightIndex, element);
             }
         }
 
@@ -46,12 +48,52 @@ public class FloorBinarySearchImpl implements Floor {
 
         return elementIndex;
 	}
-
-	public void merge(Integer[] array, int leftIndex, int rightIndex)
+    public void mergeSort(Integer[] array, int leftIndex, int rightIndex)
+    {
+        if (leftIndex >= rightIndex)
+        {}
+        else
+        {
+            int middle = (leftIndex + rightIndex)/2;
+            mergeSort(array, leftIndex, middle);
+            mergeSort(array, middle + 1, rightIndex);
+            merge(array, leftIndex, rightIndex, middle);
+        }
+        
+    }
+	public void merge(Integer[] array, int leftIndex, int rightIndex, int middle)
 	{
-		int middle = (leftIndex + rightIndex)/2;
+        Integer[] helper = new Integer[array.length];
 		int k = leftIndex;
 		int i = leftIndex;
 		int j = middle + 1;
+
+        //memoria auxiliar
+        for (int w = leftIndex; w <= rightIndex; w++)
+        {
+            helper[w] = array[w];
+        }
+
+        while (i <= middle && j <= rightIndex)
+        {
+            if (helper[i] <= helper[j])
+            {
+                array[k] = helper[i];
+                i++;
+            }
+            else
+            {
+                array[k] = helper[j];
+                j++;
+            }
+            k++;
+        }
+
+        while(i <= middle)
+        {
+            array[k] = helper[i];
+            i++;
+            k++;
+        }
 	}
 }

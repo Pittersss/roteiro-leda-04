@@ -29,7 +29,6 @@ public class FloorTests
     @Test
     public void FloorBaseTest()
     {
-        Arrays.sort(vetorTamPar);
-        System.out.println(floorBinarySearch.binarySearch(vetorTamPar,0,vetorTamPar.length - 1, 8));
+        
     }
 }
