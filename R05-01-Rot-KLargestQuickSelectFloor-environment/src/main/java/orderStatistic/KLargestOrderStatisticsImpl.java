@@ -1,5 +1,7 @@
 package orderStatistic;
 
+import util.Util;
+
 /**
  * Uma implementacao da interface KLargest que usa estatisticas de ordem para 
  * retornar um array com os k maiores elementos de um conjunto de dados/array.
@@ -29,8 +31,12 @@ public class KLargestOrderStatisticsImpl<T extends Comparable<T>> implements KLa
 
 	@Override
 	public T[] getKLargest(T[] array, int k) {
-		// TODO Implement your code here
-		throw new UnsupportedOperationException("Not implemented yet!");
+		T[] biggestElements = (T[]) new Comparable[]{};
+		if (k > array.length)
+		{
+		
+		}
+		return biggestElements;
 		//este metodo deve obrigatoriamente usar o orderStatistics abaixo.
 	}
 
@@ -45,8 +51,35 @@ public class KLargestOrderStatisticsImpl<T extends Comparable<T>> implements KLa
 	 * @param k
 	 * @return
 	 */
-	public T orderStatistics(T[] array, int k){
-		// TODO Implement your code here
-		throw new UnsupportedOperationException("Not implemented yet!");		
+	public T orderStatistics(T[] array, int k)
+	{
+		selectionSort(array);
+		return array[k -1];
+		
+
 	}
+
+	public int getSmallerElementIndex(T[] array, int leftIndex, int rightIndex)
+	{
+		int smallerElemIndex = leftIndex;
+
+		for (int i = 0; i <= rightIndex; i++)
+		{
+			if(array[i].compareTo(array[smallerElemIndex]) < 0)
+			{
+				smallerElemIndex = i;
+			}
+		}
+
+		return smallerElemIndex;
+	}
+
+	public void selectionSort(T[] array)
+	{
+		for (int j = 0; j < array.length; j++)
+		{
+			Util.swap(array, j, getSmallerElementIndex(array, j, array.length - 1));
+		}
+	}
+
 }
