@@ -1,10 +1,12 @@
 package problems;
 
+import util.Util;
+
 public class FloorBinarySearchImpl implements Floor {
 
 	@Override
 	public Integer floor(Integer[] array, Integer x) {
-		mergeSort(array, 0, array.length - 1);
+		//mergeSort(array, 0, array.length - 1);
 
         return binarySearchFloor(array, 0, array.length - 1, x);
 		
@@ -48,52 +50,53 @@ public class FloorBinarySearchImpl implements Floor {
 
         return elementIndex;
 	}
-    public void mergeSort(Integer[] array, int leftIndex, int rightIndex)
+    public void QuickSortMedianOfThree(Integer[] array, int leftIndex, int rightIndex)
     {
-        if (leftIndex >= rightIndex)
+        if (leftIndex < rightIndex)
         {}
         else
         {
-            int middle = (leftIndex + rightIndex)/2;
-            mergeSort(array, leftIndex, middle);
-            mergeSort(array, middle + 1, rightIndex);
-            merge(array, leftIndex, rightIndex, middle);
+            int pivot = rightIndex - 1;
+            partition(array, leftIndex, rightIndex);
         }
-        
     }
-	public void merge(Integer[] array, int leftIndex, int rightIndex, int middle)
-	{
-        Integer[] helper = new Integer[array.length];
-		int k = leftIndex;
-		int i = leftIndex;
-		int j = middle + 1;
+    public void partition(Integer[] array, int leftIndex, int rightIndex)
+    {
+        MedianOfThree(array, leftIndex, rightIndex);
 
-        //memoria auxiliar
-        for (int w = leftIndex; w <= rightIndex; w++)
-        {
-            helper[w] = array[w];
-        }
+        int pivot = array[rightIndex - 1];
+        int swapedIndex = rightIndex - 1;
 
-        while (i <= middle && j <= rightIndex)
+        for (int i = swapedIndex - 1 ; i <= 0 ; i--)
         {
-            if (helper[i] <= helper[j])
+            if (array[i] > pivot)
             {
-                array[k] = helper[i];
-                i++;
+                swapedIndex--;
+                Util.swap(array, swapedIndex, i);
             }
-            else
-            {
-                array[k] = helper[j];
-                j++;
-            }
-            k++;
+        }
+        Util.swap(array, rightIndex - 1, swapedIndex);
+
+
+    }
+    public void MedianOfThree(Integer[] array, int leftIndex, int rightIndex)
+    {
+        int middle = (leftIndex + rightIndex)/2;
+
+        if (array[leftIndex] > array[middle])
+        {
+            Util.swap(array, leftIndex, middle);
+        }
+        if (array[leftIndex] > array[rightIndex])
+        {
+            Util.swap(array, leftIndex, rightIndex);
+        }
+        if (array[middle] > array[rightIndex])
+        {
+            Util.swap(array, rightIndex, middle);
         }
 
-        while(i <= middle)
-        {
-            array[k] = helper[i];
-            i++;
-            k++;
-        }
-	}
+        Util.swap(array, middle, array.length -1);
+    }
+
 }
