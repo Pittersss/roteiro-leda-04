@@ -31,18 +31,26 @@ public class KLargestOrderStatisticsImpl<T extends Comparable<T>> implements KLa
 
 	@Override
 	public T[] getKLargest(T[] array, int k) {
-		T[] biggestElements = (T[]) new Comparable[k];
+		T[] biggestElements = (T[]) new Comparable[]{};
 
-		orderStatistics(array, k);
-		
-		for (int i = 1; i <= k; i++)
+		if (k <= array.length && array.length > 0)
 		{
-			biggestElements[i] = orderStatistics(array, i);
-		}
-
-		return biggestElements;
-
+			biggestElements = (T[]) new Comparable[k];
+			orderStatistics(array, k);
 		
+			int indexControl = array.length - 1;
+			int i = 0;
+
+			while (i < k)
+			{
+				biggestElements[i] = array[indexControl];
+				i++;
+				indexControl--;
+			}
+
+		}
+		return biggestElements;
+	
 		//este metodo deve obrigatoriamente usar o orderStatistics abaixo.
 	}
 
