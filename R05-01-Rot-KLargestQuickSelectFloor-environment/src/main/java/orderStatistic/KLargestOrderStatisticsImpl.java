@@ -31,12 +31,18 @@ public class KLargestOrderStatisticsImpl<T extends Comparable<T>> implements KLa
 
 	@Override
 	public T[] getKLargest(T[] array, int k) {
-		T[] biggestElements = (T[]) new Comparable[]{};
-		if (k > array.length)
-		{
+		T[] biggestElements = (T[]) new Comparable[k];
+
+		orderStatistics(array, k);
 		
+		for (int i = 1; i <= k; i++)
+		{
+			biggestElements[i] = orderStatistics(array, i);
 		}
+
 		return biggestElements;
+
+		
 		//este metodo deve obrigatoriamente usar o orderStatistics abaixo.
 	}
 
@@ -53,33 +59,26 @@ public class KLargestOrderStatisticsImpl<T extends Comparable<T>> implements KLa
 	 */
 	public T orderStatistics(T[] array, int k)
 	{
-		selectionSort(array);
-		return array[k -1];
-		
+		int indexControl = 1;
+		while (indexControl <= k) 
+		{
+			bubbleStep(array);
+			indexControl++;
+		}
+		return array[array.length - k];
 
 	}
 
-	public int getSmallerElementIndex(T[] array, int leftIndex, int rightIndex)
+	public void bubbleStep(T[] array)
 	{
-		int smallerElemIndex = leftIndex;
-
-		for (int i = 0; i <= rightIndex; i++)
+		for (int i = 0; i < array.length - 1; i++)
 		{
-			if(array[i].compareTo(array[smallerElemIndex]) < 0)
+			if(array[i].compareTo(array[i + 1]) > 0)
 			{
-				smallerElemIndex = i;
+				Util.swap(array, i, i + 1);
 			}
 		}
-
-		return smallerElemIndex;
 	}
 
-	public void selectionSort(T[] array)
-	{
-		for (int j = 0; j < array.length; j++)
-		{
-			Util.swap(array, j, getSmallerElementIndex(array, j, array.length - 1));
-		}
-	}
 
 }
